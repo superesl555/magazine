@@ -10,16 +10,17 @@ LIBRARY = liblogger.so         # Name of the shared library to create.
 SOURCES = magazine/src/logger.cpp magazine/src/interface.cpp  # List of source files for the library.
 OBJECTS = $(SOURCES:.cpp=.o)  # Object files derived from the source files.
 
-# Default target
-all: $(LIBRARY) test_program  # Default target that builds the library and the test program.
+# Target to build the shared library
+liblogger: $(LIBRARY)  # Goal to build the shared library.
+	@echo "Library built successfully."
 
-# Rule to create the shared library
 $(LIBRARY): $(OBJECTS) 
 	$(CXX) $(CXXFLAGS) -o $@ $^
 
-# Rule to create the executable test program
+# Target to build the test program
 test_program: main.c
 	$(CC) $(CFLAGS) $@ $< $(LDFLAGS)
+	@echo "Test program built successfully."
 
 # Rule to compile .cpp files into .o object files
 %.o: %.cpp
@@ -28,3 +29,4 @@ test_program: main.c
 # Rule to clean up compiled files
 clean:
 	rm -f $(OBJECTS) $(LIBRARY) test_program
+	@echo "Cleaned up all compiled files."
